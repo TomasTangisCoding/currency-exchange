@@ -11,10 +11,10 @@ class CurrencyExchangeService
         $this->currencyRateMap = $currencyRateMap['currencies'];
     }
 
-    public function __invoke($requestData)
+    public function __invoke($input)
     {
-        $amount = (float)round(str_replace(',', '', $requestData['amount']), 2);
-        $rateFormSourceToTarget = (float)$this->currencyRateMap[$requestData['source']][$requestData['target']];
+        $amount = round(str_replace(',', '', $input['amount']), 2);
+        $rateFormSourceToTarget = (float)$this->currencyRateMap[$input['source']][$input['target']];
         $targetAmount = round($amount * $rateFormSourceToTarget, 2);
         $formattedAmount = number_format($targetAmount, 2, ".", ",");
 

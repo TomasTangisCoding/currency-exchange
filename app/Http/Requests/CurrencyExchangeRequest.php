@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Exceptions\HttpResponseException;
-// use Illuminate\Validation\Validator;
 use Illuminate\Contracts\Validation\Validator;
 
 class CurrencyExchangeRequest extends FormRequest
@@ -42,30 +41,19 @@ class CurrencyExchangeRequest extends FormRequest
     {
         $rules = [];
 
-        if ($this->routeName == 'currencyExchange') {
-            $rules = [
-                'source' => 'required|string',
-                'target' => 'required|string',
-                'amount' => 'required|regex:/^\d{1,3}(,?\d{3})*(\.?\d+)?$/',
-            ];
+        switch ($this->routeName) {
+            case 'currencyExchange':
+                $rules = [
+                    'source' => 'required|string',
+                    'target' => 'required|string',
+                    'amount' => 'required|regex:/^\d{1,3}(,?\d{3})*(\.?\d+)?$/',
+                ];
+                break;
+            default:
+                $rules = [];
+                break;
         }
 
         return $rules;
-    }
-
-    public function withValidator($validator)
-    {
-        if ($this->routeName == 'currencyExchange') {
-            $validator->after(function ($validator) {
-
-                $requestData = $validator->getData();
-                $amount = str_replace(',', '', $requestData['amount']);
-                if (is_numeric($amount)) {
-                    $this->merge(['amount' => $amount]);
-                    // $validator->errors()->add('amount', 'The amount format is invalid.');
-                }
-
-            });
-        }
     }
 }
