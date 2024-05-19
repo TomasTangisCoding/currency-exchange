@@ -1,6 +1,6 @@
 # Currency Exchange API Project
 
-這是一個面試專案，用於實現簡單的貨幣兌換 API 服務。
+這是一個面試專案，使用Laravel實現簡單的貨幣兌換 API 服務。
 
 ## 如何運行本專案
 
